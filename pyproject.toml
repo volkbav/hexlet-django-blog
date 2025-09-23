@@ -14,3 +14,8 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["hexlet-django-blog"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.13.1",
+]
