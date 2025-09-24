@@ -19,9 +19,12 @@ from django.urls import path
 
 from hexlet_django_blog import views
 
+from django.urls import path, include
+
 
 urlpatterns = [
     path("", views.index),
     path("about/", views.about),
     path('admin/', admin.site.urls),
+    path("articles/", include("hexlet_django_blog.article.urls")),
 ]
