@@ -1,13 +1,14 @@
 from django.shortcuts import render
 
-from django.views.generic import TemplateView
+from django.http import HttpResponse
+
+from django.views import View
 
 
-class ArticleIndexView(TemplateView):
+class ArticleIndexView(View):
     template_name = "articles/index.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['app_name'] = 'article'
-        return context
+    def get(self, request, **kwargs):
+        return render(request, self.template_name , kwargs)
+
 
