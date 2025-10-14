@@ -1,4 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import (
+    render, 
+    redirect,
+    get_object_or_404
+)
 #from django.http import HttpResponse
 from django.views import View
 from django.urls import reverse
@@ -16,7 +20,28 @@ class IndexView(View):
                 "articles": articles,
             },
         )
+    
+class ArticleView(View):
+    def get(self, request, *args, **kwargs):
+        article = get_object_or_404(Article, id=kwargs["id"])
+        return render(
+            request,
+            "articles/show.html",
+            context={
+                "article": article,
+            },
+        )
 
+# Модель Comments не реализована, поэтому закомментировано
+#class ArticleCommentsView(View):
+#    def get(self, request, *args, **kwargs):
+#        comment = get_object_or_404(
+#            Comment, id=kwargs["id"], article__id=kwargs["article_id"]
+#        )
+
+#        return render(...)
+
+# это странная страница была в одном из уроков...
 class ArticleIndexView(View):
     template_name = "articles/index.html"
 
