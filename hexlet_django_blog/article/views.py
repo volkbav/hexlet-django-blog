@@ -3,6 +3,20 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.urls import reverse
 
+from hexlet_django_blog.article.models import Article
+
+
+class IndexView(View):
+    def get(self, request, *args, **kwargs):
+        articles = Article.objects.all()[:15]
+        return render(
+            request,
+            "articles/index.html",
+            context={
+                "articles": articles,
+            },
+        )
+
 class ArticleIndexView(View):
     template_name = "articles/index.html"
 
@@ -20,7 +34,8 @@ class ArticleIndexView(View):
             )
         context={
             'tags': kwargs.get('tags'),
-            'article_id': kwargs.get('article_id')
+            'article_id': kwargs.get('article_id'),
+            'body': Article.objects.get(id=kwargs.get('article_id')),
         }
         return render(request, self.template_name, context)
 
