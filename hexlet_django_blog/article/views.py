@@ -7,7 +7,7 @@ from django.shortcuts import (
 from django.views import View
 from django.urls import reverse
 
-from hexlet_django_blog.article.models import Article
+from hexlet_django_blog.article.models import Article, ArticleComment
 
 from .forms import ArticleCommentForm
 
@@ -25,28 +25,38 @@ class IndexView(View):
 class ArticleView(View):
     def get(self, request, *args, **kwargs):
         article = get_object_or_404(Article, id=kwargs["id"])
+        comments = article.comments.all()
         return render(
             request,
             "articles/show.html",
             context={
                 "article": article,
+                'comments': comments
             },
         )
 
 class ArticleCommentFormView(View):
     def post(self, request, *args, **kwargs):
-        form = ArticleCommentForm(request.POST)  # Получаем данные формы из запроса
-        if form.is_valid():  # Проверяем данных формы на корректность
-            form.save()  # Сохраняем форму
-            return redirect('article:index') # редирект по name (в уроке его не указали!)
-   
-    # это тоже забыли в уроке...
+        form = ArticleCommentForm(request.POST)  
+        if form.is_valid(): 
+            comment = form.save(commit=False)
+            comment.article = get_object_or_404(Article, id=kwargs["id"])
+            comment.save()
+            return redirect(
+                'article', 
+                id=kwargs["id"],
+            ) 
+        
+    
     def get(self, request, *args, **kwargs):
-        form = ArticleCommentForm()  # Создаем экземпляр нашей формы
+        form = ArticleCommentForm()
         return render(
             request, 
-            "form_example.html", {"form": form}
-        )  # Передаем нашу форму в контексте
+            "articles/form.html", {
+                "form": form,
+                'id': kwargs["id"],
+            }
+        )  
 
 
 # --- далее код не используется ---

@@ -3,4 +3,13 @@
 {% block content %}
      <h1>{{ article.name }}</h1>
     <div>{{ article.body }}</div>
+    <div><a href="{% url 'create_comment' id=article.id %}">Добавить комментарий</a></div>
+    <hr>
+{% for comment in comments %}
+  <div><h3>Комментарий № {{ comment.id }}</h3>
+    <br>{{ comment.content }}</div>
+{% empty %}
+  <div>Комментариев пока нет.</div>
+{% endfor %}
+
 {% endblock %}

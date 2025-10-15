@@ -14,3 +14,12 @@ class Article(models.Model):
     
 class ArticleComment(models.Model):
     content = models.CharField("content", max_length=100)
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        related_name='comments'  # удобно для обратной связи: article.comments.all()
+    )
+
+    def __str__(self):
+        return f"{self.article.name}: {self.content}"
+
