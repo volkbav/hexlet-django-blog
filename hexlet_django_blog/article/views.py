@@ -6,6 +6,7 @@ from django.shortcuts import (
 #from django.http import HttpResponse
 from django.views import View
 from django.urls import reverse
+from django.contrib import messages
 
 from hexlet_django_blog.article.models import Article
 
@@ -43,7 +44,9 @@ class ArticleFormCreateView(View):
         form = ArticleForm(request.POST)
         if form.is_valid(): # Если данные корректные, то сохраняем данные формы
             form.save()
+            messages.success(request, "Article Added")
             return redirect('articles') # Редирект на указанный маршрут
+        messages.error(request, "wrong data")
         # Если данные некорректные, то возвращаем человека обратно на страницу с заполненной формой
         return render(request, 'articles/create.html', {'form': form})
 
