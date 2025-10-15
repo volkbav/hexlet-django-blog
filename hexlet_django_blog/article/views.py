@@ -31,7 +31,7 @@ class ArticleView(View):
                 "article": article,
             },
         )
-
+# --- ниже код не используется ---
 # Модель Comments не реализована, поэтому закомментировано
 #class ArticleCommentsView(View):
 #    def get(self, request, *args, **kwargs):
