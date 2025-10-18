@@ -15,7 +15,9 @@
       <div>{{ article.body|slice:":200" }}</div>
       <div>
         <a href="{% url 'articles_update' article.id %}">обновить статью</a>
-        <form action="{% url 'articles_delete' article.id %}" method="post">
+        <form action="{% url 'articles_delete' article.id %}" 
+          method="post" 
+          onsubmit="return confirm('Are you sure you want to delete article? This action cannot be undone.');">
           {% csrf_token %}
           <input type="submit" value="Удалить">
         </form>
