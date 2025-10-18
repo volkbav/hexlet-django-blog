@@ -15,7 +15,12 @@
       <div>{{ article.body|slice:":200" }}</div>
       <div>
         <a href="{% url 'articles_update' article.id %}">обновить статью</a>
+        <form action="{% url 'articles_delete' article.id %}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="Удалить">
+        </form>
       </div>
+        
     {% endfor %}
   {% endif %}
 {% endblock %}

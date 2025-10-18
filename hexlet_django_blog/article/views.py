@@ -50,6 +50,7 @@ class ArticleFormCreateView(View):
         # Если данные некорректные, то возвращаем человека обратно на страницу с заполненной формой
         return render(request, 'articles/create.html', {'form': form})
 
+
 class ArticleFormEditView(View):
     def get(self, request, *args, **kwargs):
         article_id = kwargs.get("id")
@@ -72,6 +73,15 @@ class ArticleFormEditView(View):
             request, "articles/update.html", {"form": form, "article_id": article_id}
         )
 
+
+class ArticleFormDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        article_id = kwargs.get("id")
+        article = Article.objects.get(id=article_id)
+        if article:
+            article.delete()
+        return redirect("articles")
+    
 # --- ниже код не используется ---
 # Модель Comments не реализована, поэтому закомментировано
 #class ArticleCommentsView(View):
